@@ -1,0 +1,615 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Spanish C-Test</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    line-height: 1.6;
+    max-width: 900px;
+  }
+  h2 { margin-top: 40px; }
+  input[type="text"] {
+    width: 40px;
+    font-size: 1rem;
+    margin: 0 0px;
+    padding: 2px 6px;
+    border: 2px solid #bbb;
+    border-radius: 4px;
+  }
+  .ctest-pair {
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: baseline;
+  }
+  #status { margin-top: 20px; font-weight: bold; }
+  button {
+    margin-top: 30px;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .pid-banner {
+    background: #f4f6fc;
+    border: 1px solid #d7def5;
+    color: #142b6f;
+    padding: 10px 14px;
+    margin: 12px 0 24px 0;
+    border-radius: 8px;
+  }
+  .pid-banner.missing {
+    background: #ffe6e6;
+    border-color: #ff4d4d;
+    color: #8a0000;
+  }
+  .locked input[type="text"],
+  .locked button {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  .is-busy {
+    opacity: 0.7;
+    cursor: progress !important;
+  }
+  .spinner {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    border: 2px solid #fff;
+    border-top-color: transparent;
+    border-radius: 50%;
+    margin-left: 8px;
+    vertical-align: -2px;
+    animation: spin 0.8s linear;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<h1>Spanish C-Test</h1>
+
+<!-- PID display banner -->
+<div id="pidBanner"
+     style="background:#f4f6fc;border:1px solid #d7def5;color:#142b6f;padding:10px 14px;margin:12px 0 24px 0;border-radius:8px;">
+</div>
+
+<script>
+  (function () {
+    try {
+      const banner = document.getElementById('pidBanner');
+      const params = new URLSearchParams(window.location.search);
+      const pid = (params.get('pid') || '').trim();
+      window.__pid = pid;
+
+      if (pid) {
+        banner.textContent = 'Participant ID: ' + pid;
+      } else {
+        banner.textContent = '⚠️ Error: Participant ID faltante en la URL. Favor de consultar con el/la experimentador/a.';
+        banner.style.background = '#ffe6e6';
+        banner.style.borderColor = '#ff4d4d';
+        banner.style.color = '#8a0000';
+      }
+
+      const pidInput = document.getElementById('pid');
+      if (pidInput && pid) {
+        pidInput.value = pid;
+        pidInput.readOnly = true;
+      }
+    } catch (e) {
+      const banner = document.getElementById('pidBanner');
+      if (banner) {
+        banner.textContent = 'Error mostrando el Participant ID. Revise la consola.';
+        banner.style.background = '#fff0f0';
+        banner.style.borderColor = '#ffaaaa';
+        banner.style.color = '#8a0000';
+      }
+      console.error('PID banner error:', e);
+    }
+  })();
+</script>
+
+<!-- ===================== TEXTO 1 ===================== -->
+<h2>17 de agosto, Marbella</h2>
+<p>
+Laura todavía está en la playa y yo estoy ya en la habitación del hotel. No quiero <span class="ctest-pair">sa<input id="101"></span>, hace <span class="ctest-pair">mu<input id="102"></span> calor y no <span class="ctest-pair">de<input id="103"></span> tomar <span class="ctest-pair">m<input id="104"></span> el <span class="ctest-pair">s<input id="105"></span>. Todas <span class="ctest-pair">l<input id="106"></span> mañanas <span class="ctest-pair">va<input id="107"></span> a <span class="ctest-pair">l<input id="108"></span> playa, a <span class="ctest-pair">u<input id="109"></span> playa <span class="ctest-pair">pe<input id="110"></span> pero <span class="ctest-pair">m<input id="111"></span> bonita <span class="ctest-pair">ce<input id="112"></span> del hotel. Allí no <span class="ctest-pair">h<input id="113"></span> mucha <span class="ctest-pair">ge<input id="114"></span>. Después <span class="ctest-pair">com<input id="115"></span> juntos en <span class="ctest-pair">u<input id="116"></span> bar. Hay <span class="ctest-pair">muc<input id="117"></span> en esa <span class="ctest-pair">zo<input id="118"></span>. ¡Cómo <span class="ctest-pair">m<input id="119"></span> gusta <span class="ctest-pair">l<input id="120"></span> comida de <span class="ctest-pair">aq<input id="121"></span>, sobre <span class="ctest-pair">to<input id="122"></span> el <span class="ctest-pair">pes<input id="123"></span>! Por las <span class="ctest-pair">tar<input id="124"></span> vamos <span class="ctest-pair">a<input id="125"></span> centro de Marbella. A veces volvemos muy pronto al hotel. Nos gusta mucho escuchar música o leer un buen libro.
+</p>
+
+<hr>
+
+<!-- ===================== TEXTO 2 ===================== -->
+<h2>Descripción de mi mamá Lauri</h2>
+<p>
+Mi personaje favorito es mi mamá, su nombre es Lauriana de Jesús Pinta. Tiene <span class="ctest-pair">cuar<input id="201"></span> y ocho <span class="ctest-pair">añ<input id="202"></span> de <span class="ctest-pair">ed<input id="203"></span> y <span class="ctest-pair">tra<input id="204"></span> de <span class="ctest-pair">prof<input id="205"></span> en el <span class="ctest-pair">cen<input id="206"></span> educativo “Fiscal Francia” de <span class="ctest-pair">ni<input id="207"></span>. Ella <span class="ctest-pair">vi<input id="208"></span> en Calvas <span class="ctest-pair">c<input id="209"></span> mi <span class="ctest-pair">pa<input id="210"></span> y mi <span class="ctest-pair">her<input id="211"></span>, a <span class="ctest-pair">qui<input id="212"></span> quiero y <span class="ctest-pair">apr<input id="213"></span> mucho. A mi madre la <span class="ctest-pair">adm<input id="214"></span> porque <span class="ctest-pair">e<input id="215"></span> una <span class="ctest-pair">per<input id="216"></span> luchadora, <span class="ctest-pair">respe<input id="217"></span>, solidaria, <span class="ctest-pair">soci<input id="218"></span>, etc. Le <span class="ctest-pair">gu<input id="219"></span> el <span class="ctest-pair">dep<input id="220"></span>, en <span class="ctest-pair">espe<input id="221"></span> el <span class="ctest-pair">basqu<input id="222"></span>. Está siempre <span class="ctest-pair">ale<input id="223"></span>, es <span class="ctest-pair">m<input id="224"></span> amorosa y <span class="ctest-pair">comuni<input id="225"></span>, y trata de darme y enseñarme lo mejor que tiene. Los momentos que he compartido con ella han sido inolvidables.</p>
+
+<hr>
+
+<!-- ===================== TEXTO 3 ===================== -->
+<h2>Así es el día a día de una cantante famosa</h2>
+<p>
+Me levanto a las 8 y desayuno un panecillo con salmón ahumado. Mi <span class="ctest-pair">hor<input id="301"></span> suele <span class="ctest-pair">s<input id="302"></span> frenético, <span class="ctest-pair">pe<input id="303"></span> mi <span class="ctest-pair">ma<input id="304"></span> sabe <span class="ctest-pair">l<input id="305"></span> que hay que <span class="ctest-pair">ha<input id="306"></span> y <span class="ctest-pair">pu<input id="307"></span> repasarlo <span class="ctest-pair">c<input id="308"></span> ella. Me <span class="ctest-pair">gu<input id="309"></span> sorprenderme, <span class="ctest-pair">a<input id="310"></span> que <span class="ctest-pair">nu<input id="311"></span> miro mi <span class="ctest-pair">calen<input id="312"></span> la <span class="ctest-pair">no<input id="313"></span> anterior. Me <span class="ctest-pair">enc<input id="314"></span> la <span class="ctest-pair">sens<input id="315"></span> de <span class="ctest-pair">levan<input id="316"></span> por <span class="ctest-pair">l<input id="317"></span> mañana y <span class="ctest-pair">te<input id="318"></span> que <span class="ctest-pair">mi<input id="319"></span> por la <span class="ctest-pair">ven<input id="320"></span> para <span class="ctest-pair">desc<input id="321"></span> en <span class="ctest-pair">q<input id="322"></span> ciudad <span class="ctest-pair">es<input id="323"></span>. Como <span class="ctest-pair">norma<input id="324"></span> paso la <span class="ctest-pair">may<input id="325"></span> del tiempo en el hotel, mi madre no se preocupa demasiado. Pocas veces discutimos, porque quiero muchísimo a mi madre.
+</p>
+
+<hr>
+
+<!-- ===================== TEXTO 4 ===================== -->
+<h2>Perfil de alimentación de los argentinos</h2>
+<p>
+El último censo realizado en la República de Argentina contabiliza a su población en algo más de 40 millones de habitantes. El <span class="ctest-pair">pa<input id="401"></span> produce una <span class="ctest-pair">cant<input id="402"></span> suficiente <span class="ctest-pair">pa<input id="403"></span> alimentar a 442 millones de <span class="ctest-pair">pers<input id="404"></span>, sin <span class="ctest-pair">emb<input id="405"></span>, por <span class="ctest-pair">u<input id="406"></span> lado <span class="ctest-pair">s<input id="407"></span> observan <span class="ctest-pair">indiv<input id="408"></span> que <span class="ctest-pair">pres<input id="409"></span> déficit de <span class="ctest-pair">nutri<input id="410"></span> en <span class="ctest-pair">s<input id="411"></span> alimentación, y por <span class="ctest-pair">ot<input id="412"></span> lado, <span class="ctest-pair">tam<input id="413"></span> excesos. A los argentinos les <span class="ctest-pair">so<input id="414"></span> comida pero les <span class="ctest-pair">fa<input id="415"></span> variedad. Hay <span class="ctest-pair">homoge<input id="416"></span> en <span class="ctest-pair">l<input id="417"></span> cocina y <span class="ctest-pair">e<input id="418"></span> la <span class="ctest-pair">me<input id="419"></span> de los argentinos. Se <span class="ctest-pair">cons<input id="420"></span> pocos <span class="ctest-pair">alim<input id="421"></span> de <span class="ctest-pair">bu<input id="422"></span> calidad <span class="ctest-pair">nutri<input id="423"></span>, mientras que el exceso de <span class="ctest-pair">con<input id="424"></span> de <span class="ctest-pair">ot<input id="425"></span> agrega grasas de mala calidad, sodio y azúcares.
+</p>
+
+<hr>
+
+<!-- ===================== TEXTO 5 ===================== -->
+<h2>Un cubano en Kiev, recién llegado y sintiéndose agobiado</h2>
+<p>
+Creo que este correo que les escribí a mis padres fue el más sentimental que he hecho en mi vida. Yo <span class="ctest-pair">ha<input id="501"></span> salido <span class="ctest-pair">ha<input id="502"></span> dos <span class="ctest-pair">dí<input id="503"></span> de Cuba, y <span class="ctest-pair">el<input id="504"></span> no <span class="ctest-pair">hab<input id="505"></span> tenido <span class="ctest-pair">noti<input id="506"></span> mías, no <span class="ctest-pair">sab<input id="507"></span> dónde <span class="ctest-pair">est<input id="508"></span>, ni <span class="ctest-pair">có<input id="509"></span> iba, ni <span class="ctest-pair">q<input id="510"></span> había <span class="ctest-pair">si<input id="511"></span> de <span class="ctest-pair">m<input id="512"></span>. Yo me <span class="ctest-pair">sen<input id="513"></span> muy <span class="ctest-pair">tri<input id="514"></span>, pero no <span class="ctest-pair">po<input id="515"></span> decirles <span class="ctest-pair">e<input id="516"></span>. Empecé <span class="ctest-pair">dici<input id="517"></span> que <span class="ctest-pair">to<input id="518"></span> me iba <span class="ctest-pair">bi<input id="519"></span> y que <span class="ctest-pair">ha<input id="520"></span> salido <span class="ctest-pair">estu<input id="521"></span> el <span class="ctest-pair">vi<input id="522"></span>, y <span class="ctest-pair">s<input id="523"></span> querer <span class="ctest-pair">m<input id="524"></span> lágrimas <span class="ctest-pair">empe<input id="525"></span> a salir y no paraban de rodar por mis mejillas mientras escribía. Sabía que los estaba engañando, pero consideraba injusto preocuparlos; total, no resolvería nada.
+</p>
+
+<hr>
+
+<button id="submitBtn" type="button" onclick="submitAnswers()">Enviar respuestas</button>
+<div id="status"></div>
+
+<script>
+// =================== CONFIG ===================
+const WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbyePzl6Ba6ZwewLCsPIySlrGXM1Y6g36PiuhYTl1x-n_raQz5Pml4lIXwAePfnmyoo_/exec";
+
+// ========== TIMER STARTS AS SOON AS PAGE LOADS ==========
+let startTime = Date.now();
+
+function getPid() {
+  const el = document.getElementById("pid");
+  return el ? (el.value || "").trim() : "";
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.ctest-pair input').forEach(input => {
+    input.type = "text";
+    input.autocomplete = "off";
+  });
+
+  const pidFromBanner = (window.__pid || "").trim();
+  const pidInput = document.getElementById('pid');
+  if (pidInput && pidFromBanner) {
+    pidInput.value = pidFromBanner;
+  }
+
+  propagatePidToLinks(pidFromBanner);
+
+  if (!pidFromBanner) {
+    lockPageForMissingPid();
+  }
+});
+
+function propagatePidToLinks(pid) {
+  if (!pid) return;
+  const anchors = document.querySelectorAll('a[href]');
+  anchors.forEach(a => {
+    const href = a.getAttribute('href');
+    if (!href || href.startsWith('#')) return;
+    try {
+      const url = new URL(href, window.location.origin);
+      if (url.origin !== window.location.origin) return;
+      url.searchParams.set('pid', pid);
+      if (/^(https?:)?\/\//i.test(href)) {
+        a.setAttribute('href', url.toString());
+      } else {
+        a.setAttribute('href', url.pathname + url.search + url.hash);
+      }
+    } catch (e) { /* ignore malformed URLs */ }
+  });
+}
+
+function lockPageForMissingPid() {
+  document.querySelectorAll('.ctest-pair input').forEach(el => {
+    el.disabled = true;
+    el.setAttribute('aria-disabled', 'true');
+  });
+  const submitBtn = document.getElementById('submitBtn');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.setAttribute('aria-disabled', 'true');
+  }
+  document.body.classList.add('locked');
+  const status = document.getElementById('status');
+  if (status) {
+    status.textContent = 'La página está bloqueada porque falta el Participant ID. Por favor, utilice el enlace correcto o contacte al experimentador/a.';
+  }
+}
+
+let isSubmitting = false;
+
+function setSubmittingState(submitting) {
+  const btn = document.getElementById("submitBtn");
+  if (!btn) return;
+  if (submitting) {
+    btn.disabled = true;
+    btn.classList.add('is-busy');
+    btn.setAttribute('aria-busy', 'true');
+    if (!btn.dataset.originalText) btn.dataset.originalText = btn.textContent;
+    btn.innerHTML = 'Enviando… <span class="spinner" aria-hidden="true"></span>';
+  } else {
+    btn.disabled = false;
+    btn.classList.remove('is-busy');
+    btn.removeAttribute('aria-busy');
+    if (btn.dataset.originalText) btn.textContent = btn.dataset.originalText;
+  }
+}
+
+function submitAnswers() {
+  if (isSubmitting) return;
+  isSubmitting = true;
+  setSubmittingState(true);
+
+  const pid = getPid();
+  if (!pid) {
+    document.getElementById("status").innerHTML = "⚠️ Debe ingresar su Participant ID (o abrir el enlace con ?pid=...).";
+    isSubmitting = false;
+    setSubmittingState(false);
+    return;
+  }
+
+  const timeSpent = Math.round((Date.now() - startTime) / 1000);
+
+  const data = {
+    pid: pid,
+    time_seconds: timeSpent,
+    timestamp: new Date().toISOString()
+  };
+
+  const inputs = document.querySelectorAll('.ctest-pair input');
+  inputs.forEach((el, idx) => {
+    const key = el.id && el.id.trim() ? el.id.trim() : `blank_${idx + 1}`;
+    data[key] = (el.value || "").trim();
+  });
+
+  console.log('Posting payload:', data);
+
+  const controller = new AbortController();
+  const timeoutMs = 15000;
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+  fetch(WEB_APP_URL, {
+    method: "POST",
+    // NOTE: If you see CORS errors from local files, try REMOVING the header below.
+    // headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+    signal: controller.signal
+  })
+  .then(r => {
+    clearTimeout(timeoutId);
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    return r.text();
+  })
+  .then(t => {
+    document.getElementById("status").innerHTML = "✓ Enviado. Confirmación, participante: " + pid + " ¡Gracias!";
+    console.log("Server response:", t);
+    document.querySelectorAll('.ctest-pair input').forEach(el => el.disabled = true);
+    // Button remains disabled to prevent duplicates
+  })
+  .catch(err => {
+    console.error(err);
+    let msg = "Error al enviar.";
+    if (err.name === 'AbortError') {
+      msg = "Tiempo de espera agotado al enviar. Verifique su conexión y vuelva a intentar.";
+    }
+    document.getElementById("status").innerHTML = msg;
+    isSubmitting = false;
+    setSubmittingState(false);
+  });
+}
+</script>
+
+<!-- Hidden pid input (auto-filled from URL) -->
+<input type="hidden" id="pid" />
+
+
+<!-- ===================== ACCENT STRIP (left pinned) ===================== -->
+<style>
+  /* Container pinned to left */
+  .accent-strip {
+    position: fixed;
+    left: 0.75rem;
+    top: 30%;
+    transform: translateY(-30%);
+    z-index: 9999;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: .5rem;
+    box-shadow: 0 6px 18px rgba(0,0,0,.15);
+    padding: .5rem;
+    width: 2.6rem;              /* narrow column */
+    user-select: none;
+    font-family: Arial, sans-serif;
+  }
+
+  .accent-strip-header {
+    text-align: center;
+    font-size: .75rem;
+    color: #555;
+    margin: 0 0 .25rem 0;
+    line-height: 1.1;
+  }
+
+  .accent-strip-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .25rem;
+    justify-items: stretch;
+  }
+
+  /* Buttons: override the page's global button style ONLY here */
+  .accent-strip .accent-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.1rem;
+    border-radius: .4rem;
+    border: 1px solid #ddd;
+    background: #f7f7f7;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    transition: background .15s, transform .02s;
+
+    /* override global styles from the page */
+    margin-top: 0 !important;
+    padding: 0 !important;
+    font-weight: normal;
+  }
+  .accent-strip .accent-btn:hover { background: #eee; }
+  .accent-strip .accent-btn:active { transform: translateY(1px); }
+
+  /* Compact mode for very small screens */
+  @media (max-width: 480px) {
+    .accent-strip {
+      left: .5rem;
+      top: 40%;
+      width: 2.8rem;
+    }
+    .accent-strip .accent-btn {
+      height: 2.3rem;
+      font-size: 1.2rem;
+    }
+  }
+</style>
+
+<div id="accentStrip" class="accent-strip" role="group" aria-label="Spanish accent strip">
+  <div class="accent-strip-header" aria-hidden="true">Acentos</div>
+  <div class="accent-strip-grid">
+    <button type="button" class="accent-btn" data-char="á" aria-label="insertar á">á</button>
+    <button type="button" class="accent-btn" data-char="é" aria-label="insertar é">é</button>
+    <button type="button" class="accent-btn" data-char="í" aria-label="insertar í">í</button>
+    <button type="button" class="accent-btn" data-char="ó" aria-label="insertar ó">ó</button>
+    <button type="button" class="accent-btn" data-char="ú" aria-label="insertar ú">ú</button>
+    <button type="button" class="accent-btn" data-char="ü" aria-label="insertar ü">ü</button>
+    <button type="button" class="accent-btn" data-char="ñ" aria-label="insertar ñ">ñ</button>
+  </div>
+</div>
+
+<script>
+  // Self-contained logic; targets .ctest-pair inputs; no changes to your existing code.
+  (function () {
+    let lastFocused = null;
+
+    function isEligible(el) {
+      return el && el.matches('.ctest-pair input') && !el.disabled && !el.readOnly;
+    }
+
+    function trackTargets() {
+      // Attach to current inputs
+      document.querySelectorAll('.ctest-pair input').forEach(el => {
+        el.addEventListener('focus', () => { lastFocused = el; }, { capture: true });
+        el.addEventListener('click', () => { lastFocused = el; }, { capture: true });
+      });
+      // If focus moves to another input, keep reference
+      document.addEventListener('focusin', (e) => {
+        const t = e.target;
+        if (t && t.matches && t.matches('.ctest-pair input')) lastFocused = t;
+      });
+    }
+
+    function insertAtCaret(el, char) {
+      if (!isEligible(el)) return;
+      el.focus({ preventScroll: false });
+      if (typeof el.setRangeText === 'function') {
+        const start = el.selectionStart ?? el.value.length;
+        const end   = el.selectionEnd ?? el.value.length;
+        el.setRangeText(char, start, end, 'end'); // caret after char
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        return;
+      }
+      // Fallback
+      const start = el.selectionStart || 0;
+      const end   = el.selectionEnd || 0;
+      const before = el.value.slice(0, start);
+      const after  = el.value.slice(end);
+      el.value = before + char + after;
+      const newPos = start + char.length;
+      if (el.setSelectionRange) el.setSelectionRange(newPos, newPos);
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
+    function bindStrip() {
+      const strip = document.getElementById('accentStrip');
+      strip.addEventListener('click', (e) => {
+        const btn = e.target.closest('.accent-btn[data-char]');
+        if (!btn) return;
+
+        // Default to first available input if none focused yet
+        if (!isEligible(lastFocused)) {
+          lastFocused = Array.from(document.querySelectorAll('.ctest-pair input')).find(isEligible) || null;
+        }
+        if (isEligible(lastFocused)) insertAtCaret(lastFocused, btn.dataset.char);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      trackTargets();
+      bindStrip();
+    });
+  })();
+</script>
+<!-- =================== /ACCENT STRIP =================== -->
+
+	
+<style>
+  /* How far to indent the reading content to clear the left strip */
+  :root { --accent-strip-offset: 5rem; }
+
+  /* Applied to an auto-created wrapper around the reading content */
+  .content-indented {
+    padding-left: var(--accent-strip-offset);
+  }
+</style>
+
+	
+<script>
+  // Wrap from the first H2 ("17 de agosto...") up to (but not including) the Submit button
+  // to avoid overlap with the left-pinned accent strip.
+  document.addEventListener('DOMContentLoaded', () => {
+    try {
+      const start = document.querySelector('h2');         // first H2 on the page
+      const endMarker = document.getElementById('submitBtn'); // stop before this
+
+      if (!start || !endMarker) return;
+
+      // Create wrapper and insert it before the first H2
+      const wrapper = document.createElement('div');
+      wrapper.className = 'content-indented';
+      start.parentNode.insertBefore(wrapper, start);
+
+      // Move nodes from start up to endMarker (exclusive) into the wrapper
+      let node = start;
+      while (node && node !== endMarker) {
+        const next = node.nextSibling;
+        wrapper.appendChild(node);
+        node = next;
+      }
+    } catch (e) {
+      console.warn('Indent wrapper setup skipped due to error:', e);
+    }
+  });
+</script>
+
+	<script>
+  // Allow letters (Unicode letters + combining marks), reject everything else.
+  // \p{L} = any kind of letter, \p{M} = combining marks (accents)
+  const NON_LETTERS_REGEX = /[^\p{L}\p{M}]/gu;
+
+  function cleanToLettersOnly(str) {
+    // Normalize to NFC so accent palette and IMEs behave consistently
+    return (str || '').normalize('NFC').replace(NON_LETTERS_REGEX, '');
+  }
+
+  function attachLetterOnlyGuards() {
+    const inputs = document.querySelectorAll('.ctest-pair input');
+
+    inputs.forEach((input) => {
+      // Make sure soft keyboards show a text layout (not numeric)
+      input.setAttribute('inputmode', 'text');
+      input.setAttribute('autocomplete', 'off');
+
+      // 1) beforeinput: intercept and sanitize typed or pasted characters
+      input.addEventListener('beforeinput', (e) => {
+        // Cases where browsers let us see the raw inserted data
+        const t = e.inputType || '';
+        if (
+          t === 'insertText' ||
+          t === 'insertCompositionText' ||
+          t === 'insertFromPaste' ||
+          t === 'insertFromDrop' ||
+          t === 'insertReplacementText'
+        ) {
+          // Prefer e.data; for paste/drop, fall back to clipboard data
+          let incoming = e.data;
+          if ((incoming == null) && e.clipboardData) {
+            incoming = e.clipboardData.getData('text');
+          }
+
+          if (incoming != null) {
+            const cleaned = cleanToLettersOnly(incoming);
+            if (cleaned !== incoming) {
+              // Prevent the original (invalid) insert, then insert cleaned
+              e.preventDefault();
+              const start = input.selectionStart ?? input.value.length;
+              const end   = input.selectionEnd ?? input.value.length;
+              input.setRangeText(cleaned, start, end, 'end');
+              input.dispatchEvent(new Event('input', { bubbles: true }));
+            }
+            // If incoming == cleaned, let it pass
+          }
+        }
+      });
+
+      // 2) Fallback: on input, scrub any residual invalid chars
+      input.addEventListener('input', () => {
+        const cleaned = cleanToLettersOnly(input.value);
+        if (cleaned !== input.value) {
+          const pos = input.selectionStart;
+          input.value = cleaned;
+          // Keep caret at the end if selection is unknown
+          if (pos != null) {
+            const newPos = Math.min(pos, cleaned.length);
+            input.setSelectionRange(newPos, newPos);
+          }
+        }
+      });
+
+      // 3) Prevent dropping non-letters directly
+      input.addEventListener('dragover', (e) => e.preventDefault());
+      input.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const data = e.dataTransfer ? e.dataTransfer.getData('text') : '';
+        const cleaned = cleanToLettersOnly(data);
+        const start = input.selectionStart ?? input.value.length;
+        const end   = input.selectionEnd ?? input.value.length;
+        input.setRangeText(cleaned, start, end, 'end');
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.focus();
+      });
+
+      // 4) Optional: block spacebar specifically (UX nicety)
+      input.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.code === 'Space') {
+          e.preventDefault();
+        }
+      });
+    });
+  }
+
+  // Bind after your existing DOMContentLoaded logic runs
+  document.addEventListener('DOMContentLoaded', attachLetterOnlyGuards);
+</script>
+	
+	<script>
+  // Call this after your other DOMContentLoaded handlers:
+  document.addEventListener('DOMContentLoaded', () => {
+    const MAX_LEN = 10;
+    document.querySelectorAll('.ctest-pair input').forEach((input) => {
+      // Native browser cap
+      input.setAttribute('maxlength', String(MAX_LEN));
+
+      // Hard cap on any source of changes (typing, paste, palette insert)
+      input.addEventListener('input', () => {
+        if (input.value.length > MAX_LEN) {
+          const pos = input.selectionStart;
+          input.value = input.value.slice(0, MAX_LEN);
+          // keep caret position reasonable
+          if (pos != null) {
+            const newPos = Math.min(pos, input.value.length);
+            input.setSelectionRange(newPos, newPos);
+          }
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
