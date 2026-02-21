@@ -25,7 +25,7 @@
   }
   input[type="text"] {
     width: 40px;     /* adjust as desired */
-    max-width: 160px;
+    max-width: 600px;
     font-size: 1rem;
     margin: 0 0px;
     padding: 2px 6px;
@@ -55,6 +55,9 @@
     font-weight: bold;
   }
   hr { margin: 22px 0; }
+
+  #pwd { width: 370px; }
+	
 </style>
 </head>
 <body>
@@ -95,11 +98,7 @@
 <!-- Password field -->
 <p class="inline">
   <label for="pwd"><strong>Password:</strong></label>
-  <input type="password" id="pwd" placeholder="Enter the password" required autocomplete="off" aria-describedby="pwd_hint">
-  <label class="hint" id="pwd_hint" aria-hidden="true">(Provided by the experimenter)</label>
-  <label class="inline" style="gap:4px;">
-    <input type="checkbox" id="toggle_pwd"> Show
-  </label>
+  <input type="text" id="pwd" placeholder="Enter the password provided by the experimenter" required autocomplete="off" aria-describedby="pwd_hint">
 </p>
 
 	
