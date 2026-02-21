@@ -180,9 +180,8 @@ const REQUIRED_PASSWORD = "spanish@depaul";
 
 function normalizeForCompare(str) {
   return (str || "")
-    .trim()               // remove leading/trailing spaces
-    .replace(/\s+/g, " ") // collapse internal whitespace runs to a single space
-    .toLowerCase();       // case-insensitive
+    .toLowerCase()    // case-insensitive
+    .replace(/\s+/g, ""); // remove ALL whitespace (spaces, tabs, newlines)
 }
 
 document.getElementById("btn_start_test").addEventListener("click", () => {
