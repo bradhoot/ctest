@@ -178,12 +178,17 @@ const REQUIRED_PASSWORD = "spanish@depaul";
 	
 	const NEXT_PAGE_URL = "test.html";   // <-- Replace with your real next page
 
+function normalizeForCompare(str) {
+  return (str || "")
+    .trim()               // remove leading/trailing spaces
+    .replace(/\s+/g, " ") // collapse internal whitespace runs to a single space
+    .toLowerCase();       // case-insensitive
+}
 
 document.getElementById("btn_start_test").addEventListener("click", () => {
   const pidField = document.getElementById("pid");
   const pwdField = document.getElementById("pwd");
   const pid = (pidField.value || "").trim();
-  const pwd = (pwdField.value || "").trim();
   const status = document.getElementById("practice_status");
 
   if (!pid) {
@@ -191,12 +196,16 @@ document.getElementById("btn_start_test").addEventListener("click", () => {
     pidField.focus();
     return;
   }
-  if (!pwd) {
+
+  const userPwdNorm = normalizeForCompare(pwdField.value);
+  const requiredPwdNorm = normalizeForCompare(REQUIRED_PASSWORD);
+
+  if (!userPwdNorm) {
     status.textContent = "⚠️ Please enter the password to continue.";
     pwdField.focus();
     return;
   }
-  if (pwd !== REQUIRED_PASSWORD) {
+  if (userPwdNorm !== requiredPwdNorm) {
     status.textContent = "⛔ Incorrect password. Please check with the experimenter.";
     pwdField.focus();
     pwdField.select();
