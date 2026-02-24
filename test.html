@@ -392,7 +392,9 @@ function submitAnswers() {
   </div>
 </div>
 
+	
 <script>
+	
   // Self-contained logic; targets .ctest-pair inputs; no changes to your existing code.
   (function () {
     let lastFocused = null;
@@ -500,7 +502,7 @@ function submitAnswers() {
 	<script>
   // Allow letters (Unicode letters + combining marks), reject everything else.
   // \p{L} = any kind of letter, \p{M} = combining marks (accents)
-  const NON_LETTERS_REGEX = /[^\p{L}\p{M}]/gu;
+  const NON_LETTERS_REGEX = /[^\p{L}\p{M}0]/gu;
 
   function cleanToLettersOnly(str) {
     // Normalize to NFC so accent palette and IMEs behave consistently
