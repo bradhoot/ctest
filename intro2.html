@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>C‑Test Introduction</title>
+<title>C‑Test Introduction (Step 2)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
@@ -16,26 +15,6 @@
     padding: 0 12px;
   }
   h1 { margin: 0 0 10px 0; }
-  p.muted { color: #555; margin-top: 6px; }
-  /* Keep the visible prefix + input together on one line */
-  .ctest-pair {
-    white-space: nowrap;
-    display: inline-flex;
-    align-items: baseline;
-  }
-  input[type="text"] {
-    width: 40px;     /* adjust as desired */
-    max-width: 600px;
-    font-size: 1rem;
-    margin: 0 0px;
-    padding: 2px 6px;
-    border: 2px solid #bbb;
-    border-radius: 4px;
-    transition: background-color .15s ease, border-color .15s ease;
-  }
-  /* Feedback colors */
-  .correct   { background: #e8f5e9; border-color: #2e7d32; }
-  .incorrect { background: #ffebee; border-color: #c62828; }
   button {
     margin-top: 12px;
     padding: 10px 18px;
@@ -46,169 +25,139 @@
     background: var(--accent);
     color: #fff;
   }
-  button.secondary {
-    background: #fff;
-    color: var(--accent);
-  }
-  #practice_status {
+  #login_status {
     margin-top: 10px;
     font-weight: bold;
   }
-  hr { margin: 22px 0; }
-
   #pwd { width: 370px; }
-	
+  hr { margin: 22px 0; }
+  .inline label { display: inline-block; margin-right: 6px; }
+  input[type="text"] {
+    font-size: 1rem;
+    padding: 6px 8px;
+    border: 2px solid #bbb;
+    border-radius: 4px;
+  }
+  .muted {
+    color: #666;
+    font-size: 0.95rem;
+  }
+  noscript a { color: var(--accent); }
 </style>
+
+<script>
+/* ---------- Page Guard: only allow entry from index.html ---------- */
+(function guardIntro2() {
+  const redirectToIndex = () => { window.location.replace("index.html"); };
+
+  try {
+    const cameFromIntro = sessionStorage.getItem("cameFromIntro") === "1";
+    // Best-effort referrer check (may be empty due to privacy settings)
+    const ref = document.referrer || "";
+    const refLooksRight =
+      ref.endsWith("/index.html") ||
+      ref.includes("/index.html") ||
+      ref.endsWith("index.html") ||
+      ref.includes("index.html");
+
+    // Require session flag; also prefer referrer to match when present
+    const refOkay = (ref === "") ? true : refLooksRight;
+
+    if (!cameFromIntro || !refOkay) {
+      redirectToIndex();
+      return;
+    }
+
+    // One-time token: clear immediately to prevent reload/bookmark bypass
+    sessionStorage.removeItem("cameFromIntro");
+  } catch (e) {
+    // If storage is blocked, fall back strictly to referrer (may still fail in strict privacy contexts)
+    const ref = document.referrer || "";
+    const refLooksRight =
+      ref.endsWith("/index.html") ||
+      ref.includes("/index.html") ||
+      ref.endsWith("index.html") ||
+      ref.includes("index.html");
+    if (!refLooksRight) {
+      redirectToIndex();
+      return;
+    }
+  }
+})();
+</script>
 </head>
 <body>
 
+<noscript>
+  <p class="muted">
+    JavaScript is required to continue. Please enable JavaScript and return to
+    <a href="index.html">the introduction page</a>.
+  </p>
+</noscript>
+
 <h1>Spanish C-Test</h1>
 
-<p> 
-	These are instructions to a Spanish C-test. In a C-test, the second half of every other word is missing. You will try to fill in the blanks with the missing half of the word. If the word has an odd number of letters, the second half of the word plus one letter will be deleted. The test will give you the first sentence and the last sentence to help you understand the context. You can see how it works below with sample sentences from this paragraph. Try to fill in the blanks and then check your answers.</p>
-<hr>
-	
-<h2>Example C-test (sample answers underlined)</h2>
 <p>
-  These are instructions to a Spanish C-test. In a C-test, the second half of every other word is missing.
-  Y<u>ou</u> will t<u>ry</u> to fi<u>ll</u> in t<u>he</u> blanks wi<u>th</u> the mis<u>sing</u> half o<u>f</u> the wo<u>rd</u>. If <span class="ctest-pair">t<input id="ex1"></span> word <span class="ctest-pair">h<input id="ex2"></span> an <span class="ctest-pair">o<input id="ex3"></span> number <span class="ctest-pair">o<input id="ex4"></span> letters, <span class="ctest-pair">t<input id="ex5"></span> second <span class="ctest-pair">ha<input id="ex6"></span> of <span class="ctest-pair">t<input id="ex7"></span> word <span class="ctest-pair">pl<input id="ex8"></span> one <span class="ctest-pair">let<input id="ex9"></span> will <span class="ctest-pair">b<input id="ex10"></span> deleted. You can see how it works below with sample sentences from this paragraph. Try to fill in the blanks and then check your answers.
+  This is not a timed test. If you do not know an answer, you can make a guess or leave the answer blank.
 </p>
 
-<!-- The “Check your answers” button right under the paragraph -->
-<button id="btn_check" type="button">Check your answers</button>
-<button id="btn_clear" type="button" class="secondary">Clear</button>
-<div id="practice_status" role="status" aria-live="polite"></div>
+<p>
+  When you are ready to begin, enter the participant ID and password the experimenter gave you and click the button below.
+</p>
 
-	<hr>
-	
-<p>
-	This is not a timed test. If you do not know an answer, you can make a guess or leave the answer blank. 
-</p>
-	
-<p>
-	When you are ready to begin, enter the participant ID and password the experimenter gave you and click the button below. 
-</p>
-	
-	<!-- Participant ID -->
+<!-- Participant ID -->
 <p><strong>Participant ID:</strong>
   <input type="text" id="pid" placeholder="Enter your ID" required autocomplete="off">
 </p>
 
-	
 <!-- Password field -->
 <p class="inline">
   <label for="pwd"><strong>Password:</strong></label>
   <input type="text" id="pwd" placeholder="Enter the password provided by the experimenter" required autocomplete="off" aria-describedby="pwd_hint">
 </p>
 
-	
 <!-- Start test button -->
-	
 <button id="btn_start_test" type="button" style="margin-top:20px;">
   Start C-test
 </button>
-	
-		
-	
+
+<div id="login_status" role="status" aria-live="polite"></div>
+
 <script>
-	
-/* Set default attributes on all C-test blanks */
-document.querySelectorAll('.ctest-pair input').forEach(input => {
-  input.type = "text";
-  input.autocomplete = "off";
-});
-	
-	
-/* --- Answer key (missing substrings only) --- */
-const ANSWER_KEY = {
-  ex1: "he",   // t + he  -> the
-  ex2: "as",   // h + as  -> has
-  ex3: "dd",   // o + dd  -> odd
-  ex4: "f",    // o + f   -> of
-  ex5: "he",   // t + he  -> the
-  ex6: "lf",   // ha + lf -> half
-  ex7: "he",   // t + he  -> the
-  ex8: "us",   // pl + us -> plus
-  ex9: "ter",  // let + ter -> letter
-  ex10: "e"    // b + e   -> be
-};
-const IDS = Object.keys(ANSWER_KEY);
-
-/* Case-insensitive match */
-function isCorrect(answer, key) {
-  return (answer || "").trim().toLowerCase() === key.toLowerCase();
-}
-
-/* Grade and paint inputs */
-function checkAnswers() {
-  let correctCount = 0;
-  IDS.forEach(id => {
-    const el = document.getElementById(id);
-    const val = el ? el.value : "";
-    const ok = isCorrect(val, ANSWER_KEY[id]);
-
-    el.classList.toggle("correct", ok);
-    el.classList.toggle("incorrect", !ok);
-    el.setAttribute("aria-invalid", ok ? "false" : "true");
-    if (ok) correctCount++;
-  });
-
-  const status = document.getElementById("practice_status");
-  status.textContent = `Score: ${correctCount} / ${IDS.length}`;
-}
-
-/* Clear responses and feedback */
-function clearAnswers() {
-  IDS.forEach(id => {
-    const el = document.getElementById(id);
-    el.value = "";
-    el.classList.remove("correct", "incorrect");
-    el.removeAttribute("aria-invalid");
-  });
-  document.getElementById("practice_status").textContent = "";
-}
-
-/* Wire buttons */
-document.getElementById("btn_check").addEventListener("click", checkAnswers);
-document.getElementById("btn_clear").addEventListener("click", clearAnswers);
-
-
-/* ---- Move to next page with Participant ID preserved ---- */
+/* ---- Config ---- */
 const REQUIRED_PASSWORD = "spanish@depaul";
-	
-	const NEXT_PAGE_URL = "test.html";   // <-- Replace with your real next page
+const NEXT_PAGE_URL = "test.html";   // <-- Replace with your real next page
 
 function normalizeForCompare(str) {
   return (str || "")
-    .toLowerCase()    // case-insensitive
-    .replace(/\s+/g, ""); // remove ALL whitespace (spaces, tabs, newlines)
+    .toLowerCase()
+    .replace(/\s+/g, "");
 }
 
-	function isValidPID(rawPID) {
-  const cleaned = rawPID.replace(/\s+/g, ""); // remove all spaces
+function isValidPID(rawPID) {
+  const cleaned = (rawPID || "").replace(/\s+/g, "");
   const num = Number(cleaned);
-
-  // must be exactly 3 digits AND between 000–999
-  return /^\d{3}$/.test(cleaned) && num >= 000 && num <= 999;
+  return /^\d{3}$/.test(cleaned) && num >= 0 && num <= 999;
 }
 
+/* Start button logic */
 document.getElementById("btn_start_test").addEventListener("click", () => {
   const pidField = document.getElementById("pid");
   const pwdField = document.getElementById("pwd");
   const pid = (pidField.value || "").trim();
-  const status = document.getElementById("practice_status");
+  const status = document.getElementById("login_status");
 
   if (!pid) {
     status.textContent = "⚠️ Please enter your Participant ID before starting the test.";
     pidField.focus();
     return;
   }
-// Check PID validity
-if (!isValidPID(pid)) {
-  status.textContent = "⛔ Invalid Participant ID. Please check with the experimenter.";
-  pidField.focus();
-  return;
-}
+  if (!isValidPID(pid)) {
+    status.textContent = "⛔ Invalid Participant ID. Please check with the experimenter.";
+    pidField.focus();
+    return;
+  }
+
   const userPwdNorm = normalizeForCompare(pwdField.value);
   const requiredPwdNorm = normalizeForCompare(REQUIRED_PASSWORD);
 
@@ -227,9 +176,7 @@ if (!isValidPID(pid)) {
   const target = `${NEXT_PAGE_URL}?pid=${encodeURIComponent(pid)}`;
   window.location.href = target;
 });
-
 </script>
 
 </body>
-	
 </html>
