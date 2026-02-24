@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,70 +54,42 @@
     font-weight: bold;
   }
   hr { margin: 22px 0; }
-
-  #pwd { width: 370px; }
-	
 </style>
 </head>
 <body>
 
 <h1>Spanish C-Test</h1>
 
-<p> 
-	These are instructions to a Spanish C-test. In a C-test, the second half of every other word is missing. You will try to fill in the blanks with the missing half of the word. If the word has an odd number of letters, the second half of the word plus one letter will be deleted. The test will give you the first sentence and the last sentence to help you understand the context. You can see how it works below with sample sentences from this paragraph. Try to fill in the blanks and then check your answers.</p>
+<p>
+  These are instructions to a Spanish C-test. In a C-test, the second half of every other word is missing. You will try to fill in the blanks with the missing half of the word. If the word has an odd number of letters, the second half of the word plus one letter will be deleted. The test will give you the first sentence and the last sentence to help you understand the context. You can see how it works below with sample sentences from this paragraph. Try to fill in the blanks and then check your answers.
+</p>
 <hr>
-	
+
 <h2>Example C-test (sample answers underlined)</h2>
 <p>
   These are instructions to a Spanish C-test. In a C-test, the second half of every other word is missing.
   Y<u>ou</u> will t<u>ry</u> to fi<u>ll</u> in t<u>he</u> blanks wi<u>th</u> the mis<u>sing</u> half o<u>f</u> the wo<u>rd</u>. If <span class="ctest-pair">t<input id="ex1"></span> word <span class="ctest-pair">h<input id="ex2"></span> an <span class="ctest-pair">o<input id="ex3"></span> number <span class="ctest-pair">o<input id="ex4"></span> letters, <span class="ctest-pair">t<input id="ex5"></span> second <span class="ctest-pair">ha<input id="ex6"></span> of <span class="ctest-pair">t<input id="ex7"></span> word <span class="ctest-pair">pl<input id="ex8"></span> one <span class="ctest-pair">let<input id="ex9"></span> will <span class="ctest-pair">b<input id="ex10"></span> deleted. You can see how it works below with sample sentences from this paragraph. Try to fill in the blanks and then check your answers.
 </p>
 
-<!-- The “Check your answers” button right under the paragraph -->
+<!-- Check/Clear buttons -->
 <button id="btn_check" type="button">Check your answers</button>
 <button id="btn_clear" type="button" class="secondary">Clear</button>
 <div id="practice_status" role="status" aria-live="polite"></div>
 
-	<hr>
-	
-<p>
-	This is not a timed test. If you do not know an answer, you can make a guess or leave the answer blank. 
-</p>
-	
-<p>
-	When you are ready to begin, enter the participant ID and password the experimenter gave you and click the button below. 
-</p>
-	
-	<!-- Participant ID -->
-<p><strong>Participant ID:</strong>
-  <input type="text" id="pid" placeholder="Enter your ID" required autocomplete="off">
-</p>
+<hr>
 
-	
-<!-- Password field -->
-<p class="inline">
-  <label for="pwd"><strong>Password:</strong></label>
-  <input type="text" id="pwd" placeholder="Enter the password provided by the experimenter" required autocomplete="off" aria-describedby="pwd_hint">
-</p>
-
-	
-<!-- Start test button -->
-	
-<button id="btn_start_test" type="button" style="margin-top:20px;">
-  Start C-test
+<!-- Continue button to intro2.html -->
+<button id="btn_continue" type="button" style="margin-top: 20px;">
+  Continue
 </button>
-	
-		
-	
+
 <script>
-	
 /* Set default attributes on all C-test blanks */
 document.querySelectorAll('.ctest-pair input').forEach(input => {
   input.type = "text";
   input.autocomplete = "off";
 });
-	
-	
+
 /* --- Answer key (missing substrings only) --- */
 const ANSWER_KEY = {
   ex1: "he",   // t + he  -> the
@@ -172,64 +143,11 @@ function clearAnswers() {
 document.getElementById("btn_check").addEventListener("click", checkAnswers);
 document.getElementById("btn_clear").addEventListener("click", clearAnswers);
 
-
-/* ---- Move to next page with Participant ID preserved ---- */
-const REQUIRED_PASSWORD = "spanish@depaul";
-	
-	const NEXT_PAGE_URL = "test.html";   // <-- Replace with your real next page
-
-function normalizeForCompare(str) {
-  return (str || "")
-    .toLowerCase()    // case-insensitive
-    .replace(/\s+/g, ""); // remove ALL whitespace (spaces, tabs, newlines)
-}
-
-	function isValidPID(rawPID) {
-  const cleaned = rawPID.replace(/\s+/g, ""); // remove all spaces
-  const num = Number(cleaned);
-
-  // must be exactly 3 digits AND between 000–999
-  return /^\d{3}$/.test(cleaned) && num >= 000 && num <= 999;
-}
-
-document.getElementById("btn_start_test").addEventListener("click", () => {
-  const pidField = document.getElementById("pid");
-  const pwdField = document.getElementById("pwd");
-  const pid = (pidField.value || "").trim();
-  const status = document.getElementById("practice_status");
-
-  if (!pid) {
-    status.textContent = "⚠️ Please enter your Participant ID before starting the test.";
-    pidField.focus();
-    return;
-  }
-// Check PID validity
-if (!isValidPID(pid)) {
-  status.textContent = "⛔ Invalid Participant ID. Please check with the experimenter.";
-  pidField.focus();
-  return;
-}
-  const userPwdNorm = normalizeForCompare(pwdField.value);
-  const requiredPwdNorm = normalizeForCompare(REQUIRED_PASSWORD);
-
-  if (!userPwdNorm) {
-    status.textContent = "⚠️ Please enter the password to continue.";
-    pwdField.focus();
-    return;
-  }
-  if (userPwdNorm !== requiredPwdNorm) {
-    status.textContent = "⛔ Incorrect password. Please check with the experimenter.";
-    pwdField.focus();
-    pwdField.select();
-    return;
-  }
-
-  const target = `${NEXT_PAGE_URL}?pid=${encodeURIComponent(pid)}`;
-  window.location.href = target;
+/* Continue to the next intro page */
+document.getElementById("btn_continue").addEventListener("click", () => {
+  window.location.href = "intro2.html";
 });
-
 </script>
 
 </body>
-	
 </html>
