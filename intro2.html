@@ -5,14 +5,13 @@
 <title>C‑Test Introduction (Step 2)</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<!-- ====== Base styles aligned with test.html ====== -->
 <style>
-  :root { --maxw: 900px; --accent: #1976d2; }
   body {
     font-family: Arial, sans-serif;
-    margin: 40px auto;
-    line-height: 1.6;
-    max-width: var(--maxw);
-    padding: 0 12px;
+    margin: 40px;         /* same as test.html */
+    line-height: 1.6;     /* same as test.html */
+    max-width: 900px;     /* same as test.html */
   }
   h1 { margin: 0 0 10px 0; }
   button {
@@ -21,16 +20,15 @@
     font-size: 1rem;
     cursor: pointer;
     border-radius: 4px;
-    border: 1px solid var(--accent);
-    background: var(--accent);
+    border: 1px solid #1976d2;
+    background: #1976d2;
     color: #fff;
   }
   #login_status {
-    margin-top: 10px;
+    margin-top: 14px;
     font-weight: bold;
   }
   #pwd { width: 370px; }
-  hr { margin: 22px 0; }
   .inline label { display: inline-block; margin-right: 6px; }
   input[type="text"] {
     font-size: 1rem;
@@ -42,36 +40,31 @@
     color: #666;
     font-size: 0.95rem;
   }
-  noscript a { color: var(--accent); }
+  hr { margin: 22px 0; }
 </style>
 
+<!-- ====== Page Guard: only allow entry from index.html ====== -->
 <script>
-/* ---------- Page Guard: only allow entry from index.html ---------- */
 (function guardIntro2() {
   const redirectToIndex = () => { window.location.replace("index.html"); };
 
   try {
     const cameFromIntro = sessionStorage.getItem("cameFromIntro") === "1";
-    // Best-effort referrer check (may be empty due to privacy settings)
     const ref = document.referrer || "";
     const refLooksRight =
       ref.endsWith("/index.html") ||
       ref.includes("/index.html") ||
       ref.endsWith("index.html") ||
       ref.includes("index.html");
-
-    // Require session flag; also prefer referrer to match when present
     const refOkay = (ref === "") ? true : refLooksRight;
 
     if (!cameFromIntro || !refOkay) {
       redirectToIndex();
       return;
     }
-
-    // One-time token: clear immediately to prevent reload/bookmark bypass
+    // One-time token to prevent reload/bookmark bypass
     sessionStorage.removeItem("cameFromIntro");
   } catch (e) {
-    // If storage is blocked, fall back strictly to referrer (may still fail in strict privacy contexts)
     const ref = document.referrer || "";
     const refLooksRight =
       ref.endsWith("/index.html") ||
@@ -97,23 +90,13 @@
 
 <h1>Spanish C-Test</h1>
 
-<p>
-  This is not a timed test. There will be a total of 5 exercises, each taking about 3 to 5 minutes to complete, but there is no time limit.
-  </p>
+<!-- ====== Content block that matches test.html's right offset via wrapper (added below) ====== -->
+<div id="intro2ContentStart" aria-hidden="true" style="height:0;width:0;overflow:hidden;"></div>
 
-  <p>
-  If you do not know an answer, you can make a guess or leave the answer blank <strong>by typing 0</strong>. To make sure you don't accidentally skip something, the form won't accept items that are left blank, so if you don't want to guess, just type in 0.
+<p>
+  This is not a timed test. If you do not know an answer, you can make a guess or leave the answer blank.
 </p>
 
-<hr>
-
-  <h2>Accent marks</h2>
-  You can add an accented vowel or an "ñ" by clicking on the letter to insert in the Acentos panel to the left. 
-
-  Try it out! Complete the word "rocío" in the blank below, adding an "i" with an accent mark by clicking on the Acentos panel.
-
-  
-  
 <p>
   When you are ready to begin, enter the participant ID and password the experimenter gave you and click the button below.
 </p>
@@ -136,6 +119,7 @@
 
 <div id="login_status" role="status" aria-live="polite"></div>
 
+<!-- ========= Start button logic (unchanged) ========= -->
 <script>
 /* ---- Config ---- */
 const REQUIRED_PASSWORD = "spanish@depaul";
@@ -153,7 +137,6 @@ function isValidPID(rawPID) {
   return /^\d{3}$/.test(cleaned) && num >= 0 && num <= 999;
 }
 
-/* Start button logic */
 document.getElementById("btn_start_test").addEventListener("click", () => {
   const pidField = document.getElementById("pid");
   const pwdField = document.getElementById("pwd");
@@ -189,6 +172,190 @@ document.getElementById("btn_start_test").addEventListener("click", () => {
   const target = `${NEXT_PAGE_URL}?pid=${encodeURIComponent(pid)}`;
   window.location.href = target;
 });
+</script>
+
+<!-- ===================== ACCENT STRIP (left pinned) ===================== -->
+<style>
+  /* Container pinned to left (copied from test.html) */
+  .accent-strip {
+    position: fixed;
+    left: 0.75rem;
+    top: 30%;
+    transform: translateY(-30%);
+    z-index: 9999;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: .5rem;
+    box-shadow: 0 6px 18px rgba(0,0,0,.15);
+    padding: .5rem;
+    width: 2.6rem;
+    user-select: none;
+    font-family: Arial, sans-serif;
+  }
+
+  .accent-strip-header {
+    text-align: center;
+    font-size: .75rem;
+    color: #555;
+    margin: 0 0 .25rem 0;
+    line-height: 1.1;
+  }
+
+  .accent-strip-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .25rem;
+    justify-items: stretch;
+  }
+
+  .accent-strip .accent-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.1rem;
+    border-radius: .4rem;
+    border: 1px solid #ddd;
+    background: #f7f7f7;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    transition: background .15s, transform .02s;
+
+    margin-top: 0 !important;
+    padding: 0 !important;
+    font-weight: normal;
+  }
+  .accent-strip .accent-btn:hover { background: #eee; }
+  .accent-strip .accent-btn:active { transform: translateY(1px); }
+
+  @media (max-width: 480px) {
+    .accent-strip {
+      left: .5rem;
+      top: 40%;
+      width: 2.8rem;
+    }
+    .accent-strip .accent-btn {
+      height: 2.3rem;
+      font-size: 1.2rem;
+    }
+  }
+</style>
+
+<div id="accentStrip" class="accent-strip" role="group" aria-label="Spanish accent strip">
+  <div class="accent-strip-header" aria-hidden="true">Acentos</div>
+  <div class="accent-strip-grid">
+    <button type="button" class="accent-btn" data-char="á" aria-label="insert á">á</button>
+    <button type="button" class="accent-btn" data-char="é" aria-label="insert é">é</button>
+    <button type="button" class="accent-btn" data-char="í" aria-label="insert í">í</button>
+    <button type="button" class="accent-btn" data-char="ó" aria-label="insert ó">ó</button>
+    <button type="button" class="accent-btn" data-char="ú" aria-label="insert ú">ú</button>
+    <button type="button" class="accent-btn" data-char="ü" aria-label="insert ü">ü</button>
+    <button type="button" class="accent-btn" data-char="ñ" aria-label="insert ñ">ñ</button>
+  </div>
+</div>
+
+<script>
+  // Accent strip behavior (same self-contained logic pattern as test.html)
+  (function () {
+    let lastFocused = null;
+
+    // For intro2, we want the palette to insert into text inputs on this page (pid, pwd)
+    function isEligible(el) {
+      return el && el.matches('input[type="text"]') && !el.disabled && !el.readOnly;
+    }
+
+    function trackTargets() {
+      document.querySelectorAll('input[type="text"]').forEach(el => {
+        el.addEventListener('focus', () => { lastFocused = el; }, { capture: true });
+        el.addEventListener('click', () => { lastFocused = el; }, { capture: true });
+      });
+      document.addEventListener('focusin', (e) => {
+        const t = e.target;
+        if (t && t.matches && t.matches('input[type="text"]')) lastFocused = t;
+      });
+    }
+
+    function insertAtCaret(el, char) {
+      if (!isEligible(el)) return;
+      el.focus({ preventScroll: false });
+      if (typeof el.setRangeText === 'function') {
+        const start = el.selectionStart ?? el.value.length;
+        const end   = el.selectionEnd ?? el.value.length;
+        el.setRangeText(char, start, end, 'end'); // caret after char
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        return;
+      }
+      // Fallback
+      const start = el.selectionStart || 0;
+      const end   = el.selectionEnd || 0;
+      const before = el.value.slice(0, start);
+      const after  = el.value.slice(end);
+      el.value = before + char + after;
+      const newPos = start + char.length;
+      if (el.setSelectionRange) el.setSelectionRange(newPos, newPos);
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
+    function bindStrip() {
+      const strip = document.getElementById('accentStrip');
+      strip.addEventListener('click', (e) => {
+        const btn = e.target.closest('.accent-btn[data-char]');
+        if (!btn) return;
+
+        if (!isEligible(lastFocused)) {
+          // default to PID field first, then password field
+          lastFocused =
+            document.getElementById('pid') ||
+            document.getElementById('pwd') ||
+            null;
+        }
+        if (isEligible(lastFocused)) insertAtCaret(lastFocused, btn.dataset.char);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      trackTargets();
+      bindStrip();
+    });
+  })();
+</script>
+<!-- =================== /ACCENT STRIP =================== -->
+
+<!-- ================= Right indent wrapper (same approach as test.html) ================= -->
+<style>
+  /* Indent content to clear the accent strip */
+  :root { --accent-strip-offset: 5rem; }
+  .content-indented {
+    padding-left: var(--accent-strip-offset);
+  }
+</style>
+
+<script>
+  // Wrap from our invisible #intro2ContentStart marker up to (but not including) the Start button
+  // so the visible content shifts right and doesn't collide with the left strip.
+  document.addEventListener('DOMContentLoaded', () => {
+    try {
+      const start = document.getElementById('intro2ContentStart');
+      const endMarker = document.getElementById('btn_start_test');
+      if (!start || !endMarker) return;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'content-indented';
+
+      // Insert wrapper right after the marker
+      start.parentNode.insertBefore(wrapper, start.nextSibling);
+
+      // Move nodes from after marker up to endMarker (exclusive) into the wrapper
+      let node = wrapper.nextSibling;
+      while (node && node !== endMarker) {
+        const next = node.nextSibling;
+        wrapper.appendChild(node);
+        node = next;
+      }
+    } catch (e) {
+      console.warn('Indent wrapper setup skipped due to error:', e);
+    }
+  });
 </script>
 
 </body>
