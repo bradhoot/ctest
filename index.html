@@ -188,8 +188,8 @@ function normalizeForCompare(str) {
   const cleaned = rawPID.replace(/\s+/g, ""); // remove all spaces
   const num = Number(cleaned);
 
-  // must be exactly 3 digits AND between 100–900
-  return /^\d{3}$/.test(cleaned) && num >= 100 && num <= 900;
+  // must be exactly 3 digits AND between 000–999
+  return /^\d{3}$/.test(cleaned) && num >= 000 && num <= 999;
 }
 
 document.getElementById("btn_start_test").addEventListener("click", () => {
