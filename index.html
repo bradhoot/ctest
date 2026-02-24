@@ -143,8 +143,13 @@ function clearAnswers() {
 document.getElementById("btn_check").addEventListener("click", checkAnswers);
 document.getElementById("btn_clear").addEventListener("click", clearAnswers);
 
-/* Continue to the next intro page */
+/* Continue to the next intro page with session guard */
 document.getElementById("btn_continue").addEventListener("click", () => {
+  try {
+    sessionStorage.setItem("cameFromIntro", "1");
+  } catch (e) {
+    // If storage is blocked, we still navigate (referrer check will assist)
+  }
   window.location.href = "intro2.html";
 });
 </script>
