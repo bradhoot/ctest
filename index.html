@@ -184,6 +184,14 @@ function normalizeForCompare(str) {
     .replace(/\s+/g, ""); // remove ALL whitespace (spaces, tabs, newlines)
 }
 
+	function isValidPID(rawPID) {
+  const cleaned = rawPID.replace(/\s+/g, ""); // remove all spaces
+  const num = Number(cleaned);
+
+  // must be exactly 3 digits AND between 100–900
+  return /^\d{3}$/.test(cleaned) && num >= 100 && num <= 900;
+}
+
 document.getElementById("btn_start_test").addEventListener("click", () => {
   const pidField = document.getElementById("pid");
   const pwdField = document.getElementById("pwd");
@@ -195,7 +203,12 @@ document.getElementById("btn_start_test").addEventListener("click", () => {
     pidField.focus();
     return;
   }
-
+// Check PID validity
+if (!isValidPID(pid)) {
+  status.textContent = "⛔ Invalid Participant ID. Please check with the experimenter.";
+  pidField.focus();
+  return;
+}
   const userPwdNorm = normalizeForCompare(pwdField.value);
   const requiredPwdNorm = normalizeForCompare(REQUIRED_PASSWORD);
 
