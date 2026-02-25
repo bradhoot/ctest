@@ -81,41 +81,6 @@
 	
 </style>
 	
-	<!-- ====== Page Guard: only allow from index.html ====== -->
-<script>
-(function guardIntro2() {
-  const redirectToIndex = () => { window.location.replace("index.html"); };
-
-  try {
-    const cameFromIntro = sessionStorage.getItem("cameFromIntro") === "1";
-    const ref = document.referrer || "";
-    const refLooksRight =
-      ref.endsWith("/index.html") ||
-      ref.includes("/index.html") ||
-      ref.endsWith("index.html") ||
-      ref.includes("index.html");
-    const refOkay = (ref === "") ? true : refLooksRight;
-
-    if (!cameFromIntro || !refOkay) {
-      redirectToIndex();
-      return;
-    }
-    sessionStorage.removeItem("cameFromIntro");   // one-time access token
-  } catch (e) {
-    const ref = document.referrer || "";
-    const refLooksRight =
-      ref.endsWith("/index.html") ||
-      ref.includes("/index.html") ||
-      ref.endsWith("index.html") ||
-      ref.includes("index.html");
-    if (!refLooksRight) {
-      redirectToIndex();
-      return;
-    }
-  }
-})();
-</script>
-	
 </head>
 <body>
 
