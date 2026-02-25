@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,42 +55,45 @@
     font-weight: bold;
   }
   hr { margin: 22px 0; }
+
+  #pwd { width: 370px; }
+	
 </style>
 </head>
 <body>
 
 <h1>Spanish C-Test</h1>
 
-<p>
-  These are instructions to a Spanish C-test. In a C-test, the second half of every other word is missing. You will try to fill in the blanks with the missing half of the word. If the word has an odd number of letters, the second half of the word plus one letter will be deleted. The test will give you the first sentence and the last sentence to help you understand the context. You can see how it works below with sample sentences from this paragraph. Try to fill in the blanks and then check your answers.
-</p>
+<p> 
+	These are instructions to a Spanish C-test. In a C-test, the second half of every other word is missing. You will try to fill in the blanks with the missing half of the word. If the word has an odd number of letters, the second half of the word plus one letter will be deleted. The test will give you the first sentence and the last sentence to help you understand the context. You can see how it works below with sample sentences from this paragraph. Try to fill in the blanks and then check your answers.</p>
 <hr>
-
+	
 <h2>Example C-test (sample answers underlined)</h2>
 <p>
   These are instructions to a Spanish C-test. In a C-test, the second half of every other word is missing.
   Y<u>ou</u> will t<u>ry</u> to fi<u>ll</u> in t<u>he</u> blanks wi<u>th</u> the mis<u>sing</u> half o<u>f</u> the wo<u>rd</u>. If <span class="ctest-pair">t<input id="ex1"></span> word <span class="ctest-pair">h<input id="ex2"></span> an <span class="ctest-pair">o<input id="ex3"></span> number <span class="ctest-pair">o<input id="ex4"></span> letters, <span class="ctest-pair">t<input id="ex5"></span> second <span class="ctest-pair">ha<input id="ex6"></span> of <span class="ctest-pair">t<input id="ex7"></span> word <span class="ctest-pair">pl<input id="ex8"></span> one <span class="ctest-pair">let<input id="ex9"></span> will <span class="ctest-pair">b<input id="ex10"></span> deleted. You can see how it works below with sample sentences from this paragraph. Try to fill in the blanks and then check your answers.
 </p>
 
-<!-- Check/Clear buttons -->
+<!-- The “Check your answers” button right under the paragraph -->
 <button id="btn_check" type="button">Check your answers</button>
 <button id="btn_clear" type="button" class="secondary">Clear</button>
 <div id="practice_status" role="status" aria-live="polite"></div>
 
-<hr>
-
-<!-- Continue button to intro2.html -->
-<button id="btn_continue" type="button" style="margin-top: 20px;">
-  Continue
-</button>
-
+	<hr>
+	
+	<h1 style="text-align: center;"><a href="intro2.html">Click here to continue.</a></h1>
+	
+		
+	
 <script>
+	
 /* Set default attributes on all C-test blanks */
 document.querySelectorAll('.ctest-pair input').forEach(input => {
   input.type = "text";
   input.autocomplete = "off";
 });
-
+	
+	
 /* --- Answer key (missing substrings only) --- */
 const ANSWER_KEY = {
   ex1: "he",   // t + he  -> the
@@ -143,16 +147,8 @@ function clearAnswers() {
 document.getElementById("btn_check").addEventListener("click", checkAnswers);
 document.getElementById("btn_clear").addEventListener("click", clearAnswers);
 
-/* Continue to the next intro page with session guard */
-document.getElementById("btn_continue").addEventListener("click", () => {
-  try {
-    sessionStorage.setItem("cameFromIntro", "1");
-  } catch (e) {
-    // If storage is blocked, we still navigate (referrer check will assist)
-  }
-  window.location.href = "intro2.html";
-});
 </script>
 
 </body>
+	
 </html>
