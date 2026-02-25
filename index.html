@@ -81,32 +81,7 @@
 
 	<hr>
 	
-<p>
-	This is not a timed test. If you do not know an answer, you can make a guess or leave the answer blank. 
-</p>
-	
-<p>
-	When you are ready to begin, enter the participant ID and password the experimenter gave you and click the button below. 
-</p>
-	
-	<!-- Participant ID -->
-<p><strong>Participant ID:</strong>
-  <input type="text" id="pid" placeholder="Enter your ID" required autocomplete="off">
-</p>
-
-	
-<!-- Password field -->
-<p class="inline">
-  <label for="pwd"><strong>Password:</strong></label>
-  <input type="text" id="pwd" placeholder="Enter the password provided by the experimenter" required autocomplete="off" aria-describedby="pwd_hint">
-</p>
-
-	
-<!-- Start test button -->
-	
-<button id="btn_start_test" type="button" style="margin-top:20px;">
-  Start C-test
-</button>
+	<h1 style="text-align: center;"><a href="intro2.html">Click here to continue.</a></h1>
 	
 		
 	
@@ -171,62 +146,6 @@ function clearAnswers() {
 /* Wire buttons */
 document.getElementById("btn_check").addEventListener("click", checkAnswers);
 document.getElementById("btn_clear").addEventListener("click", clearAnswers);
-
-
-/* ---- Move to next page with Participant ID preserved ---- */
-const REQUIRED_PASSWORD = "spanish@depaul";
-	
-	const NEXT_PAGE_URL = "test.html";   // <-- Replace with your real next page
-
-function normalizeForCompare(str) {
-  return (str || "")
-    .toLowerCase()    // case-insensitive
-    .replace(/\s+/g, ""); // remove ALL whitespace (spaces, tabs, newlines)
-}
-
-	function isValidPID(rawPID) {
-  const cleaned = rawPID.replace(/\s+/g, ""); // remove all spaces
-  const num = Number(cleaned);
-
-  // must be exactly 3 digits AND between 000–999
-  return /^\d{3}$/.test(cleaned) && num >= 000 && num <= 999;
-}
-
-document.getElementById("btn_start_test").addEventListener("click", () => {
-  const pidField = document.getElementById("pid");
-  const pwdField = document.getElementById("pwd");
-  const pid = (pidField.value || "").trim();
-  const status = document.getElementById("practice_status");
-
-  if (!pid) {
-    status.textContent = "⚠️ Please enter your Participant ID before starting the test.";
-    pidField.focus();
-    return;
-  }
-// Check PID validity
-if (!isValidPID(pid)) {
-  status.textContent = "⛔ Invalid Participant ID. Please check with the experimenter.";
-  pidField.focus();
-  return;
-}
-  const userPwdNorm = normalizeForCompare(pwdField.value);
-  const requiredPwdNorm = normalizeForCompare(REQUIRED_PASSWORD);
-
-  if (!userPwdNorm) {
-    status.textContent = "⚠️ Please enter the password to continue.";
-    pwdField.focus();
-    return;
-  }
-  if (userPwdNorm !== requiredPwdNorm) {
-    status.textContent = "⛔ Incorrect password. Please check with the experimenter.";
-    pwdField.focus();
-    pwdField.select();
-    return;
-  }
-
-  const target = `${NEXT_PAGE_URL}?pid=${encodeURIComponent(pid)}`;
-  window.location.href = target;
-});
 
 </script>
 

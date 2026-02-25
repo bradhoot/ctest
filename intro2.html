@@ -1,0 +1,441 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>C‑Test Introduction</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+  :root { --maxw: 900px; --accent: #1976d2; }
+  body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    line-height: 1.6;
+    max-width: 900px;
+  }
+  h2 { margin-top: 40px; }
+  input[type="text"] {
+    width: 40px;
+    font-size: 1rem;
+    margin: 0 0px;
+    padding: 2px 6px;
+    border: 2px solid #bbb;
+    border-radius: 4px;
+  }
+  .ctest-pair {
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: baseline;
+	  }
+  h1 { margin: 0 0 10px 0; }
+  p.muted { color: #555; margin-top: 6px; }
+  /* Keep the visible prefix + input together on one line */
+  .ctest-pair {
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: baseline;
+  }
+  input[type="text"] {
+    width: 40px;     /* adjust as desired */
+    max-width: 600px;
+    font-size: 1rem;
+    margin: 0 0px;
+    padding: 2px 6px;
+    border: 2px solid #bbb;
+    border-radius: 4px;
+    transition: background-color .15s ease, border-color .15s ease;
+  }
+  /* Feedback colors */
+  .correct   { background: #e8f5e9; border-color: #2e7d32; }
+  .incorrect { background: #ffebee; border-color: #c62828; }
+  button {
+    margin-top: 12px;
+    padding: 10px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: #fff;
+  }
+  button.secondary {
+    background: #fff;
+    color: var(--accent);
+  }
+  #practice_status {
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  hr { margin: 22px 0; }
+
+  #pwd { width: 370px; }
+	
+	  /* How far to indent the reading content to clear the left strip */
+  :root { --accent-strip-offset: 5rem; }
+
+  /* Applied to an auto-created wrapper around the reading content */
+  .content-indented {
+    padding-left: var(--accent-strip-offset);
+  }
+	
+</style>
+	
+</head>
+<body>
+
+<h1>Spanish C-Test</h1>
+
+	<h2>Accent marks</h2>
+
+<p>
+  You can add an accented letter or an “ñ” by clicking on the letter to insert in   the <strong>Acentos</strong> panel to the left.
+</p>
+
+<p>
+  Try it out! Complete the word “rocío” in the blank below, adding an “i” with an accent mark by clicking on the Acentos panel.
+</p>
+	
+<p>
+  <span class="ctest-pair">ro<input id="ex1"></span> 
+</p>
+
+<!-- The “Check your answer” button right under the paragraph -->
+<button id="btn_check" type="button">Check your answer</button>
+<button id="btn_clear" type="button" class="secondary">Clear</button>
+<div id="practice_status" role="status" aria-live="polite"></div>
+
+	<hr>
+	
+<p>
+  This is not a timed test. There will be a total of 5 exercises, each taking about
+  3 to 5 minutes to complete, but there is no time limit.
+</p>
+
+<p>
+  If you do not know an answer, you can make a guess or leave the answer blank
+  <strong>by typing 0</strong>. To make sure you don't accidentally skip something, the form won't accept items that are left blank, so if you don't want to guess, just type in 0.
+</p>
+
+<hr>
+	
+	<p>
+	When you are ready to begin, enter the participant ID and password the experimenter gave you and click the button below. 
+</p>
+	
+	<!-- Participant ID -->
+<p><strong>Participant ID:</strong>
+  <input type="text" id="pid" placeholder="Enter your ID" required autocomplete="off">
+</p>
+
+	
+<!-- Password field -->
+<p class="inline">
+  <label for="pwd"><strong>Password:</strong></label>
+  <input type="text" id="pwd" placeholder="Enter the password provided by the experimenter" required autocomplete="off" aria-describedby="pwd_hint">
+</p>
+
+	
+<!-- Start test button -->
+	
+<button id="btn_start_test" type="button" style="margin-top:20px;">
+  Start C-test
+</button>
+	
+		
+	
+<script>
+	
+/* Set default attributes on all C-test blanks */
+document.querySelectorAll('.ctest-pair input').forEach(input => {
+  input.type = "text";
+  input.autocomplete = "off";
+});
+	
+	
+/* --- Answer key (missing substrings only) --- */
+const ANSWER_KEY = {
+  ex1: "cío"  
+};
+const IDS = Object.keys(ANSWER_KEY);
+
+/* Case-insensitive match */
+function isCorrect(answer, key) {
+  return (answer || "").trim().toLowerCase() === key.toLowerCase();
+}
+
+/* Grade and paint inputs */
+function checkAnswers() {
+  let correctCount = 0;
+  IDS.forEach(id => {
+    const el = document.getElementById(id);
+    const val = el ? el.value : "";
+    const ok = isCorrect(val, ANSWER_KEY[id]);
+
+    el.classList.toggle("correct", ok);
+    el.classList.toggle("incorrect", !ok);
+    el.setAttribute("aria-invalid", ok ? "false" : "true");
+    if (ok) correctCount++;
+  });
+
+  const status = document.getElementById("practice_status");
+  status.textContent = `Score: ${correctCount} / ${IDS.length}`;
+}
+
+/* Clear responses and feedback */
+function clearAnswers() {
+  IDS.forEach(id => {
+    const el = document.getElementById(id);
+    el.value = "";
+    el.classList.remove("correct", "incorrect");
+    el.removeAttribute("aria-invalid");
+  });
+  document.getElementById("practice_status").textContent = "";
+}
+
+/* Wire buttons */
+document.getElementById("btn_check").addEventListener("click", checkAnswers);
+document.getElementById("btn_clear").addEventListener("click", clearAnswers);
+
+
+/* ---- Move to next page with Participant ID preserved ---- */
+const REQUIRED_PASSWORD = "spanish@depaul";
+	
+	const NEXT_PAGE_URL = "test.html";   // <-- Replace with your real next page
+
+function normalizeForCompare(str) {
+  return (str || "")
+    .toLowerCase()    // case-insensitive
+    .replace(/\s+/g, ""); // remove ALL whitespace (spaces, tabs, newlines)
+}
+
+	function isValidPID(rawPID) {
+  const cleaned = rawPID.replace(/\s+/g, ""); // remove all spaces
+  const num = Number(cleaned);
+
+  // must be exactly 3 digits AND between 000–999
+  return /^\d{3}$/.test(cleaned) && num >= 000 && num <= 999;
+}
+
+document.getElementById("btn_start_test").addEventListener("click", () => {
+  const pidField = document.getElementById("pid");
+  const pwdField = document.getElementById("pwd");
+  const pid = (pidField.value || "").trim();
+  const status = document.getElementById("practice_status");
+
+  if (!pid) {
+    status.textContent = "⚠️ Please enter your Participant ID before starting the test.";
+    pidField.focus();
+    return;
+  }
+// Check PID validity
+if (!isValidPID(pid)) {
+  status.textContent = "⛔ Invalid Participant ID. Please check with the experimenter.";
+  pidField.focus();
+  return;
+}
+  const userPwdNorm = normalizeForCompare(pwdField.value);
+  const requiredPwdNorm = normalizeForCompare(REQUIRED_PASSWORD);
+
+  if (!userPwdNorm) {
+    status.textContent = "⚠️ Please enter the password to continue.";
+    pwdField.focus();
+    return;
+  }
+  if (userPwdNorm !== requiredPwdNorm) {
+    status.textContent = "⛔ Incorrect password. Please check with the experimenter.";
+    pwdField.focus();
+    pwdField.select();
+    return;
+  }
+
+  const target = `${NEXT_PAGE_URL}?pid=${encodeURIComponent(pid)}`;
+  window.location.href = target;
+});
+
+</script>
+	
+	
+<!-- ===================== ACCENT STRIP (left pinned) ===================== -->
+<style>
+  /* Container pinned to left */
+  .accent-strip {
+    position: fixed;
+    left: 0.75rem;
+    top: 30%;
+    transform: translateY(-30%);
+    z-index: 9999;
+    background: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: .5rem;
+    box-shadow: 0 6px 18px rgba(0,0,0,.15);
+    padding: .5rem;
+    width: 2.6rem;              /* narrow column */
+    user-select: none;
+    font-family: Arial, sans-serif;
+  }
+
+  .accent-strip-header {
+    text-align: center;
+    font-size: .75rem;
+    color: #555;
+    margin: 0 0 .25rem 0;
+    line-height: 1.1;
+  }
+
+  .accent-strip-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .25rem;
+    justify-items: stretch;
+  }
+
+  /* Buttons: override the page's global button style ONLY here */
+  .accent-strip .accent-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.1rem;
+    border-radius: .4rem;
+    border: 1px solid #ddd;
+    background: #f7f7f7;
+    cursor: pointer;
+    font-size: 1.1rem;
+    line-height: 1;
+    transition: background .15s, transform .02s;
+
+    /* override global styles from the page */
+    margin-top: 0 !important;
+    padding: 0 !important;
+    font-weight: normal;
+	color: #333 !important;   /* dark gray like the working page */;  
+  }
+  .accent-strip .accent-btn:hover { background: #eee; }
+  .accent-strip .accent-btn:active { transform: translateY(1px); }
+
+  /* Compact mode for very small screens */
+  @media (max-width: 480px) {
+    .accent-strip {
+      left: .5rem;
+      top: 40%;
+      width: 2.8rem;
+    }
+    .accent-strip .accent-btn {
+      height: 2.3rem;
+      font-size: 1.2rem;
+    }
+  }
+</style>
+
+<div id="accentStrip" class="accent-strip" role="group" aria-label="Spanish accent strip">
+  <div class="accent-strip-header" aria-hidden="true">Acentos</div>
+  <div class="accent-strip-grid">
+    <button type="button" class="accent-btn" data-char="á" aria-label="insertar á">á</button>
+    <button type="button" class="accent-btn" data-char="é" aria-label="insertar é">é</button>
+    <button type="button" class="accent-btn" data-char="í" aria-label="insertar í">í</button>
+    <button type="button" class="accent-btn" data-char="ó" aria-label="insertar ó">ó</button>
+    <button type="button" class="accent-btn" data-char="ú" aria-label="insertar ú">ú</button>
+    <button type="button" class="accent-btn" data-char="ü" aria-label="insertar ü">ü</button>
+    <button type="button" class="accent-btn" data-char="ñ" aria-label="insertar ñ">ñ</button>
+  </div>
+</div>
+
+<script>
+  // Self-contained logic; targets .ctest-pair inputs; no changes to your existing code.
+  (function () {
+    let lastFocused = null;
+
+    function isEligible(el) {
+      return el && el.matches('.ctest-pair input') && !el.disabled && !el.readOnly;
+    }
+
+    function trackTargets() {
+      // Attach to current inputs
+      document.querySelectorAll('.ctest-pair input').forEach(el => {
+        el.addEventListener('focus', () => { lastFocused = el; }, { capture: true });
+        el.addEventListener('click', () => { lastFocused = el; }, { capture: true });
+      });
+      // If focus moves to another input, keep reference
+      document.addEventListener('focusin', (e) => {
+        const t = e.target;
+        if (t && t.matches && t.matches('.ctest-pair input')) lastFocused = t;
+      });
+    }
+
+    function insertAtCaret(el, char) {
+      if (!isEligible(el)) return;
+      el.focus({ preventScroll: false });
+      if (typeof el.setRangeText === 'function') {
+        const start = el.selectionStart ?? el.value.length;
+        const end   = el.selectionEnd ?? el.value.length;
+        el.setRangeText(char, start, end, 'end'); // caret after char
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        return;
+      }
+      // Fallback
+      const start = el.selectionStart || 0;
+      const end   = el.selectionEnd || 0;
+      const before = el.value.slice(0, start);
+      const after  = el.value.slice(end);
+      el.value = before + char + after;
+      const newPos = start + char.length;
+      if (el.setSelectionRange) el.setSelectionRange(newPos, newPos);
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+    }
+
+    function bindStrip() {
+      const strip = document.getElementById('accentStrip');
+      strip.addEventListener('click', (e) => {
+        const btn = e.target.closest('.accent-btn[data-char]');
+        if (!btn) return;
+
+        // Default to first available input if none focused yet
+        if (!isEligible(lastFocused)) {
+          lastFocused = Array.from(document.querySelectorAll('.ctest-pair input')).find(isEligible) || null;
+        }
+        if (isEligible(lastFocused)) insertAtCaret(lastFocused, btn.dataset.char);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      trackTargets();
+      bindStrip();
+    });
+  })();
+</script>
+	
+		
+<script>
+  // Wrap from the first H2 up to (but not including) the Submit button
+  // to avoid overlap with the left-pinned accent strip.
+  document.addEventListener('DOMContentLoaded', () => {
+    try {
+      const start = document.querySelector('h2');         // first H2 on the page
+      const endMarker = document.getElementById('btn_start_test'); // stop before this
+
+      if (!start || !endMarker) return;
+
+      // Create wrapper and insert it before the first H2
+      const wrapper = document.createElement('div');
+      wrapper.className = 'content-indented';
+      start.parentNode.insertBefore(wrapper, start);
+
+      // Move nodes from start up to endMarker (exclusive) into the wrapper
+      let node = start;
+      while (node && node !== endMarker) {
+        const next = node.nextSibling;
+        wrapper.appendChild(node);
+        node = next;
+      }
+    } catch (e) {
+      console.warn('Indent wrapper setup skipped due to error:', e);
+    }
+  });
+</script>
+	
+<!-- =================== /ACCENT STRIP =================== -->
+
+
+</body>
+	
+</html>
