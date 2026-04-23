@@ -84,7 +84,7 @@
 </head>
 <body>
 
-<h1>Spanish C-Test</h1>
+<h1>Spanish C-Test Instructions</h1>
 
 	<h2>Accent marks</h2>
 
@@ -105,37 +105,23 @@
 <button id="btn_clear" type="button" class="secondary">Clear</button>
 <div id="practice_status" role="status" aria-live="polite"></div>
 
-	<hr>
-	
+	<h2>How long is the test?</h2>
 <p>
   This is not a timed test. There will be a total of 5 exercises, each taking about
   3 to 5 minutes to complete, but there is no time limit.
 </p>
-
+	
+	<h2>What if I don't know the answer?</h2>
 <p>
   If you do not know an answer, you can make a guess or leave the answer blank
   <strong>by typing 0</strong>. To make sure you don't accidentally skip something, the form won't accept items that are left blank, so if you don't want to guess, just type in 0.
 </p>
 
-<hr>
-	
 	<p>
-	When you are ready to begin, enter the participant ID and password the experimenter gave you and click the button below. 
+	When you are ready to begin, click the button below. 
 </p>
 	
-	<!-- Participant ID -->
-<p><strong>Participant ID:</strong>
-  <input type="text" id="pid" placeholder="Enter your ID" required autocomplete="off">
-</p>
 
-	
-<!-- Password field -->
-<p class="inline">
-  <label for="pwd"><strong>Password:</strong></label>
-  <input type="text" id="pwd" placeholder="Enter the password provided by the experimenter" required autocomplete="off" aria-describedby="pwd_hint">
-</p>
-
-	
 <!-- Start test button -->
 	
 <button id="btn_start_test" type="button" style="margin-top:20px;">
@@ -196,62 +182,6 @@ function clearAnswers() {
 /* Wire buttons */
 document.getElementById("btn_check").addEventListener("click", checkAnswers);
 document.getElementById("btn_clear").addEventListener("click", clearAnswers);
-
-
-/* ---- Move to next page with Participant ID preserved ---- */
-const REQUIRED_PASSWORD = "spanish@depaul";
-	
-	const NEXT_PAGE_URL = "test.html";   // <-- Replace with your real next page
-
-function normalizeForCompare(str) {
-  return (str || "")
-    .toLowerCase()    // case-insensitive
-    .replace(/\s+/g, ""); // remove ALL whitespace (spaces, tabs, newlines)
-}
-
-	function isValidPID(rawPID) {
-  const cleaned = rawPID.replace(/\s+/g, ""); // remove all spaces
-  const num = Number(cleaned);
-
-  // must be exactly 3 digits AND between 000–999
-  return /^\d{3}$/.test(cleaned) && num >= 000 && num <= 999;
-}
-
-document.getElementById("btn_start_test").addEventListener("click", () => {
-  const pidField = document.getElementById("pid");
-  const pwdField = document.getElementById("pwd");
-  const pid = (pidField.value || "").trim();
-  const status = document.getElementById("practice_status");
-
-  if (!pid) {
-    status.textContent = "⚠️ Please enter your Participant ID before starting the test.";
-    pidField.focus();
-    return;
-  }
-// Check PID validity
-if (!isValidPID(pid)) {
-  status.textContent = "⛔ Invalid Participant ID. Please check with the experimenter.";
-  pidField.focus();
-  return;
-}
-  const userPwdNorm = normalizeForCompare(pwdField.value);
-  const requiredPwdNorm = normalizeForCompare(REQUIRED_PASSWORD);
-
-  if (!userPwdNorm) {
-    status.textContent = "⚠️ Please enter the password to continue.";
-    pwdField.focus();
-    return;
-  }
-  if (userPwdNorm !== requiredPwdNorm) {
-    status.textContent = "⛔ Incorrect password. Please check with the experimenter.";
-    pwdField.focus();
-    pwdField.select();
-    return;
-  }
-
-  const target = `${NEXT_PAGE_URL}?pid=${encodeURIComponent(pid)}`;
-  window.location.href = target;
-});
 
 </script>
 	
