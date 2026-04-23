@@ -1,8 +1,9 @@
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" translate="no">
 <head>
 <meta charset="UTF-8">
+<meta name="google" content="notranslate">
 <title>Spanish C-Test</title>
 <style>
   body {
@@ -67,6 +68,24 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
+	/* Highlight missing answers */
+.input-error {
+  border-color: #ff4d4d !important;
+  background-color: #ffecec;
+}
+
+/* Error message box */
+.validation-error {
+  margin-top: 20px;
+  padding: 10px 14px;
+  border-radius: 6px;
+  background: #ffe6e6;
+  border: 1px solid #ff4d4d;
+  color: #8a0000;
+  font-weight: bold;
+}
+``
+	
 </style>
 </head>
 <body>
@@ -242,11 +261,56 @@ function setSubmittingState(submitting) {
   }
 }
 
+	function validateAllInputs() {
+  let hasErrors = false;
+  const inputs = document.querySelectorAll('.ctest-pair input');
+
+  // Clear previous error styles
+  inputs.forEach(input => input.classList.remove('input-error'));
+
+  inputs.forEach(input => {
+    if (input.disabled) return;
+
+    const value = (input.value || "").trim();
+
+    if (value === "") {
+      input.classList.add('input-error');
+      hasErrors = true;
+    }
+  });
+
+  return !hasErrors;
+}
+``
+	
 function submitAnswers() {
   if (isSubmitting) return;
-  isSubmitting = true;
+
+// ✅ VALIDATION STEP
+  if (!validateAllInputs()) {
+    const status = document.getElementById("status");
+    status.innerHTML = `
+      <div class="validation-error">
+        ⚠️ Por favor complete <u>todas</u> las respuestas.  
+        Si no sabe una respuesta, escriba <strong>0</strong>.
+      </div>
+    `;
+
+    // Scroll to first error for usability
+    const firstError = document.querySelector('.input-error');
+    if (firstError) {
+      firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      firstError.focus();
+    }
+
+    return; // ⛔ Stop submission
+  }
+
+	
+	isSubmitting = true;
   setSubmittingState(true);
 
+	
   const pid = getPid();
   if (!pid) {
     document.getElementById("status").innerHTML = "⚠️ Debe ingresar su Participant ID (o abrir el enlace con ?pid=...).";
@@ -304,6 +368,15 @@ function submitAnswers() {
     setSubmittingState(false);
   });
 }
+	
+	document.addEventListener('input', (e) => {
+  if (e.target.matches('.ctest-pair input')) {
+    if (e.target.value.trim() !== "") {
+      e.target.classList.remove('input-error');
+    }
+  }
+});
+	
 </script>
 
 <!-- Hidden pid input (auto-filled from URL) -->
