@@ -81,11 +81,23 @@
 
 	<hr>
 	
-	<h1 style="text-align: center;"><a href="intro2.html">Click here to continue.</a></h1>
+	<h1 style="text-align: center;"><a id="continueLink" href="intro2.html">Click here to continue.</a></h1>
 	
 		
 	
 <script>
+
+
+  // Read URL parameters
+  const params = new URLSearchParams(window.location.search);
+  const pid = params.get("pid");
+
+  // If pid exists, append it to the next page link
+  if (pid) {
+    const link = document.getElementById("continueLink");
+    link.href = `intro2.html?pid=${encodeURIComponent(pid)}`;
+  }
+
 	
 /* Set default attributes on all C-test blanks */
 document.querySelectorAll('.ctest-pair input').forEach(input => {
