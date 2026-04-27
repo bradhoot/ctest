@@ -183,6 +183,23 @@ function clearAnswers() {
 document.getElementById("btn_check").addEventListener("click", checkAnswers);
 document.getElementById("btn_clear").addEventListener("click", clearAnswers);
 
+
+ document.getElementById("btn_start_test").addEventListener("click", () => {
+    // Read query parameters from the current URL
+    const params = new URLSearchParams(window.location.search);
+    const pid = params.get("pid");
+
+    // Build destination URL
+    let nextUrl = "test.html";
+    if (pid) {
+      nextUrl += `?pid=${encodeURIComponent(pid)}`;
+    }
+
+    // Redirect
+    window.location.href = nextUrl;
+  });
+
+	
 </script>
 	
 	
