@@ -651,12 +651,20 @@ function submitAnswers() {
       });
 
       // 4) Optional: block spacebar specifically (UX nicety)
-      input.addEventListener('keydown', (e) => {
-        if (e.key === ' ' || e.code === 'Space') {
-          e.preventDefault();
-        }
-      });
-    });
+  //    input.addEventListener('keydown', (e) => {
+   //     if (e.key === ' ' || e.code === 'Space') {
+    //      e.preventDefault();
+   //     }
+//      });
+  
+	
+input.addEventListener('beforeinput', (e) => {
+  if (e.inputType === 'insertText' && e.data === ' ') {
+    e.preventDefault();
+  }
+});
+
+	});
   }
 
   // Bind after your existing DOMContentLoaded logic runs
