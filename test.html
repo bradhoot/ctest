@@ -356,6 +356,16 @@ function submitAnswers() {
     console.log("Server response:", t);
     document.querySelectorAll('.ctest-pair input').forEach(el => el.disabled = true);
     // Button remains disabled to prevent duplicates
+
+	  
+ // Update button text to final state
+  const btn = document.getElementById("submitBtn");
+  if (btn) {
+    btn.innerHTML = "✓ Sent!";
+    btn.classList.remove("is-busy");
+    btn.removeAttribute("aria-busy");
+  }
+
   })
   .catch(err => {
     console.error(err);
