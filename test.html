@@ -108,7 +108,7 @@
       if (pid) {
         banner.textContent = 'Participant ID: ' + pid;
       } else {
-        banner.textContent = '⚠️ Error: No participant ID in URL. Please contact the experimenter.';
+        banner.textContent = '⚠️ Error: Participant ID faltante en la URL. Favor de consultar con el/la experimentador/a.';
         banner.style.background = '#ffe6e6';
         banner.style.borderColor = '#ff4d4d';
         banner.style.color = '#8a0000';
@@ -122,7 +122,7 @@
     } catch (e) {
       const banner = document.getElementById('pidBanner');
       if (banner) {
-        banner.textContent = 'Error retrieving participant ID. Please contact the experimenter.';
+        banner.textContent = 'Error mostrando el Participant ID. Revise la consola.';
         banner.style.background = '#fff0f0';
         banner.style.borderColor = '#ffaaaa';
         banner.style.color = '#8a0000';
@@ -171,7 +171,7 @@ Creo que este correo que les escribí a mis padres fue el más sentimental que h
 
 <hr>
 
-<button id="submitBtn" type="button" onclick="submitAnswers()">Submit answers</button>
+<button id="submitBtn" type="button" onclick="submitAnswers()">Enviar respuestas</button>
 <div id="status"></div>
 
 <script>
@@ -238,7 +238,7 @@ function lockPageForMissingPid() {
   document.body.classList.add('locked');
   const status = document.getElementById('status');
   if (status) {
-    status.textContent = '⚠️ This page can't be accessed without entering your participant ID on a previous page. Please contact the experimenter.';
+    status.textContent = 'La página está bloqueada porque falta el Participant ID. Por favor, utilice el enlace correcto o contacte al experimentador/a.';
   }
 }
 
@@ -252,7 +252,7 @@ function setSubmittingState(submitting) {
     btn.classList.add('is-busy');
     btn.setAttribute('aria-busy', 'true');
     if (!btn.dataset.originalText) btn.dataset.originalText = btn.textContent;
-    btn.innerHTML = 'Sending… <span class="spinner" aria-hidden="true"></span>';
+    btn.innerHTML = 'Enviando… <span class="spinner" aria-hidden="true"></span>';
   } else {
     btn.disabled = false;
     btn.classList.remove('is-busy');
@@ -291,8 +291,8 @@ function submitAnswers() {
     const status = document.getElementById("status");
     status.innerHTML = `
       <div class="validation-error">
-        ⚠️ Oops! It looks like you missed something. Please complete all the answers.  
-        If you don't know an answer you can write <strong>0</strong>.
+        ⚠️ Por favor complete <u>todas</u> las respuestas.  
+        Si no sabe una respuesta, escriba <strong>0</strong>.
       </div>
     `;
 
@@ -313,7 +313,7 @@ function submitAnswers() {
 	
   const pid = getPid();
   if (!pid) {
-    document.getElementById("status").innerHTML = "⚠️ This page can't be accessed without entering your participant ID on a previous page.";
+    document.getElementById("status").innerHTML = "⚠️ Debe ingresar su Participant ID (o abrir el enlace con ?pid=...).";
     isSubmitting = false;
     setSubmittingState(false);
     return;
@@ -352,16 +352,16 @@ function submitAnswers() {
     return r.text();
   })
   .then(t => {
-    document.getElementById("status").innerHTML = "✓ Answers saved and submitted. Confirmation: " + pid + " ¡Gracias!";
+    document.getElementById("status").innerHTML = "✓ Enviado. Confirmación, participante: " + pid + " ¡Gracias!";
     console.log("Server response:", t);
     document.querySelectorAll('.ctest-pair input').forEach(el => el.disabled = true);
     // Button remains disabled to prevent duplicates
   })
   .catch(err => {
     console.error(err);
-    let msg = "Submission error.";
+    let msg = "Error al enviar.";
     if (err.name === 'AbortError') {
-      msg = "Submission timed out. Please check your connection and try again.";
+      msg = "Tiempo de espera agotado al enviar. Verifique su conexión y vuelva a intentar.";
     }
     document.getElementById("status").innerHTML = msg;
     isSubmitting = false;
