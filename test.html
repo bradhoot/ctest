@@ -171,7 +171,7 @@ Creo que este correo que les escribí a mis padres fue el más sentimental que h
 
 <hr>
 
-<button id="submitBtn" type="button" onclick="submitAnswers()">Enviar respuestas</button>
+<button id="submitBtn" type="button" onclick="submitAnswers()">Submit answers</button>
 <div id="status"></div>
 
 <script>
@@ -352,7 +352,7 @@ function submitAnswers() {
     return r.text();
   })
   .then(t => {
-    document.getElementById("status").innerHTML = "✓ Sent! Confirmación: " + pid + " ¡Gracias!";
+    document.getElementById("status").innerHTML = "✓ Sent! Confirmation: " + pid + " ¡Gracias!";
     console.log("Server response:", t);
     document.querySelectorAll('.ctest-pair input').forEach(el => el.disabled = true);
     // Button remains disabled to prevent duplicates
