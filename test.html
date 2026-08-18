@@ -364,6 +364,12 @@ function submitAnswers() {
     btn.classList.remove("is-busy");
     btn.removeAttribute("aria-busy");
     }
+  setTimeout(() => {
+		window.location.href =
+		"https://depaul.qualtrics.com/jfe/form/SV_5i2EJzEW908dFYy?pid=" +
+		encodeURIComponent(pid);
+	}, 2000);
+})
   })
   .catch(err => {
     console.error(err);
