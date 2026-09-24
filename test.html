@@ -375,7 +375,7 @@ function submitAnswers() {
   })
   .catch(err => {
     console.error(err);
-    let msg = "Error sending.";
+    let msg = "Error sending. Please check your connection, then wait a moment and try again.";
     if (err.name === 'AbortError') {
       msg = "Submission is taking longer than expected. Please check your connection, then wait a moment and try again.";
     }
