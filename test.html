@@ -291,7 +291,9 @@ function submitAnswers() {
     const status = document.getElementById("status");
     status.innerHTML = `
       <div class="validation-error">
-        ⚠️ Oops! Looks like you missed one. Please complete <u>all</u> the answers.  
+        ⚠️ Oops! Looks like you missed one. 
+		At least one answer is empty and is now shown in red.
+		Please complete <u>all</u> the answers.  
         If you don't know an answer, enter <strong>0</strong>.
       </div>
     `;
@@ -375,7 +377,8 @@ function submitAnswers() {
     console.error(err);
     let msg = "Error sending.";
     if (err.name === 'AbortError') {
-      msg = "Timed out. Check connection and try again.";
+      msg = "Submission is taking longer than expected. 
+Please check your connection, then wait a moment and try again.";
     }
     document.getElementById("status").innerHTML = msg;
     isSubmitting = false;
