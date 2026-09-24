@@ -336,7 +336,7 @@ function submitAnswers() {
   console.log('Posting payload:', data);
 
   const controller = new AbortController();
-  const timeoutMs = 15000;
+  const timeoutMs = 30000;
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
   fetch(WEB_APP_URL, {
