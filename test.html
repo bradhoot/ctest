@@ -377,7 +377,7 @@ function submitAnswers() {
     console.error(err);
     let msg = "Error sending.";
     if (err.name === 'AbortError') {
-      msg = `Submission is taking longer than expected. Please check your connection, then wait a moment and try again.`;
+      msg = "Submission is taking longer than expected. Please check your connection, then wait a moment and try again.";
     }
     document.getElementById("status").innerHTML = msg;
     isSubmitting = false;
